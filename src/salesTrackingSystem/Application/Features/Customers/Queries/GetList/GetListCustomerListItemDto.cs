@@ -1,3 +1,4 @@
+using Domain.Entities;
 using NArchitecture.Core.Application.Dtos;
 
 namespace Application.Features.Customers.Queries.GetList;

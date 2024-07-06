@@ -30,6 +30,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasData(_seeds);
 
         builder.HasBaseType((string)null!);
+
+        builder.HasOne(u => u.Customer).WithOne(c => c.User).HasForeignKey<Customer>(c => c.UserId);
     }
 
     public static Guid AdminId { get; } = Guid.NewGuid();

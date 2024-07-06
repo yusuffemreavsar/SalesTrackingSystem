@@ -11,4 +11,5 @@ public class Customer : Entity<Guid>
     public Guid UserId { get; set; }
     public User User { get; set; }
     public ICollection<Sale> Sales { get; set; }
+    public ICollection<Order> Orders { get; set; }
 }

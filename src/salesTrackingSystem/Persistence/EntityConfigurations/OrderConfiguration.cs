@@ -20,5 +20,12 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.DeletedDate).HasColumnName("DeletedDate");
 
         builder.HasQueryFilter(o => !o.DeletedDate.HasValue);
+
+
+        builder.HasKey(ky => new {ky.ProductId,ky.CustomerId});
+
+        builder.HasOne(o => o.Product).WithMany(p => p.Orders).HasForeignKey(o=>o.ProductId);
+        builder.HasOne(o => o.Customer).WithMany(p => p.Orders).HasForeignKey(o => o.CustomerId);
+
     }
 }

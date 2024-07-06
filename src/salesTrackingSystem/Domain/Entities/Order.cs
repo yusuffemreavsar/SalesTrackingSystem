@@ -7,5 +7,6 @@ public class Order:Entity<Guid>
     public Customer Customer { get; set; }
     public Guid ProductId { get; set; }
     public Product Product { get; set; }
+    public OrderDetail OrderDetail { get; set; }
 
 }

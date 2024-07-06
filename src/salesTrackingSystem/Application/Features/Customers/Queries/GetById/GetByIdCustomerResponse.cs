@@ -1,3 +1,4 @@
+using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
 
 namespace Application.Features.Customers.Queries.GetById;

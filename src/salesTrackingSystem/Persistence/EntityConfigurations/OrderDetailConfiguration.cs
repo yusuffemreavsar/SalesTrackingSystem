@@ -22,5 +22,7 @@ public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
         builder.Property(od => od.DeletedDate).HasColumnName("DeletedDate");
 
         builder.HasQueryFilter(od => !od.DeletedDate.HasValue);
+
+        builder.HasOne(od => od.Order).WithOne(o => o.OrderDetail).HasForeignKey<OrderDetail>(od => od.OrderId);
     }
 }

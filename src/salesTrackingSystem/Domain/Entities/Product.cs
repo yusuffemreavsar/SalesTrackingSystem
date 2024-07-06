@@ -7,5 +7,7 @@ public class Product : Entity<Guid>
     public string Description { get; set; }
     public int StockQuantity { get; set; }
     public decimal Price { get; set; }
+    public ICollection<Order> Orders { get; set; }
+    public ICollection<SalesDetail> SalesDetails { get; set; }
 
 }

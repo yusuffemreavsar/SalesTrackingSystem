@@ -1,3 +1,4 @@
+using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
 
 namespace Application.Features.SalesDetails.Commands.Create;

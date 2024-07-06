@@ -20,5 +20,9 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(s => s.DeletedDate).HasColumnName("DeletedDate");
 
         builder.HasQueryFilter(s => !s.DeletedDate.HasValue);
+
+        builder.HasOne(s => s.Customer).WithMany(c=>c.Sales).HasForeignKey(s=>s.CustomerId);
+
+     
     }
 }

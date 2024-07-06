@@ -23,6 +23,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.HasQueryFilter(c => !c.DeletedDate.HasValue);
         
+        
 
     }
 }
