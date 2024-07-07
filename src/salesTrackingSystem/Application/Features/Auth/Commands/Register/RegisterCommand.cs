@@ -1,4 +1,5 @@
-﻿using Application.Features.Auth.Rules;
+﻿using Application.Features.Auth.Dtos;
+using Application.Features.Auth.Rules;
 using Application.Services.AuthService;
 using Application.Services.Repositories;
 using Domain.Entities;
@@ -11,18 +12,18 @@ namespace Application.Features.Auth.Commands.Register;
 
 public class RegisterCommand : IRequest<RegisteredResponse>
 {
-    public UserForRegisterDto UserForRegisterDto { get; set; }
+    public UserForExtendedRegisterDto UserForExtendedRegisterDto { get; set; }
     public string IpAddress { get; set; }
 
     public RegisterCommand()
     {
-        UserForRegisterDto = null!;
+        UserForExtendedRegisterDto = null!;
         IpAddress = string.Empty;
     }
 
-    public RegisterCommand(UserForRegisterDto userForRegisterDto, string ipAddress)
+    public RegisterCommand(UserForExtendedRegisterDto UserForExtendedRegisterDto, string ipAddress)
     {
-        UserForRegisterDto = userForRegisterDto;
+        UserForExtendedRegisterDto = UserForExtendedRegisterDto;
         IpAddress = ipAddress;
     }
 
@@ -45,19 +46,22 @@ public class RegisterCommand : IRequest<RegisteredResponse>
 
         public async Task<RegisteredResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForRegisterDto.Email);
+            await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForExtendedRegisterDto.User.Email);
 
             HashingHelper.CreatePasswordHash(
-                request.UserForRegisterDto.Password,
+                request.UserForExtendedRegisterDto.User.Password,
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
             );
             User newUser =
                 new()
                 {
-                    Email = request.UserForRegisterDto.Email,
+                    Email = request.UserForExtendedRegisterDto.User.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
+                    FirstName=request.UserForExtendedRegisterDto.FirstName,
+                    LastName=request.UserForExtendedRegisterDto.LastName,
+                    PhoneNumber=request.UserForExtendedRegisterDto.PhoneNumber, 
                 };
             User createdUser = await _userRepository.AddAsync(newUser);
 
