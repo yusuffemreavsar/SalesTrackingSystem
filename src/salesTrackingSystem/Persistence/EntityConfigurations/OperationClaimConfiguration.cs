@@ -11,7 +11,7 @@ using Application.Features.Orders.Constants;
 using Application.Features.Products.Constants;
 using Application.Features.Sales.Constants;
 using Application.Features.OrderDetails.Constants;
-using Application.Features.SalesDetails.Constants;
+
 
 namespace Persistence.EntityConfigurations;
 
@@ -189,16 +189,7 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         
         
         #region SalesDetails
-        featureOperationClaims.AddRange(
-            [
-                new() { Id = ++lastId, Name = SalesDetailsOperationClaims.Admin },
-                new() { Id = ++lastId, Name = SalesDetailsOperationClaims.Read },
-                new() { Id = ++lastId, Name = SalesDetailsOperationClaims.Write },
-                new() { Id = ++lastId, Name = SalesDetailsOperationClaims.Create },
-                new() { Id = ++lastId, Name = SalesDetailsOperationClaims.Update },
-                new() { Id = ++lastId, Name = SalesDetailsOperationClaims.Delete },
-            ]
-        );
+  
         #endregion
         
         return featureOperationClaims;

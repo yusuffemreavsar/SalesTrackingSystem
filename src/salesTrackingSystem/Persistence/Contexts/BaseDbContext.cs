@@ -19,7 +19,6 @@ public class BaseDbContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Sale> Sales { get; set; }
     public DbSet<OrderDetail> OrderDetails { get; set; }
-    public DbSet<SalesDetail> SalesDetails { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration)
         : base(dbContextOptions)

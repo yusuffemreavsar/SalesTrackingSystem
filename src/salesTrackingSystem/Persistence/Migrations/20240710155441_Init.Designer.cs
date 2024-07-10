@@ -12,7 +12,7 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    [Migration("20240706145042_Init")]
+    [Migration("20240710155441_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -322,6 +322,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -335,40 +338,9 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("Domain.Entities.SalesDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("SaleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("SalesDetails");
+                    b.ToTable("Sales");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -529,26 +501,15 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("Domain.Entities.SalesDetail", b =>
-                {
                     b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("SalesDetails")
+                        .WithMany("Sales")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Sale", "Sale")
-                        .WithMany("SalesDetails")
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Customer");
 
                     b.Navigation("Product");
-
-                    b.Navigation("Sale");
                 });
 
             modelBuilder.Entity("Domain.Entities.UserOperationClaim", b =>
@@ -587,12 +548,7 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Orders");
 
-                    b.Navigation("SalesDetails");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Sale", b =>
-                {
-                    b.Navigation("SalesDetails");
+                    b.Navigation("Sales");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>

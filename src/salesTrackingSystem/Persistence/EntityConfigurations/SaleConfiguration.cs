@@ -15,6 +15,8 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(s => s.TotalPrice).HasColumnName("TotalPrice");
         builder.Property(s => s.CustomerId).HasColumnName("CustomerId");
         builder.Property(s => s.Customer).HasColumnName("Customer");
+        builder.Property(s => s.ProductId).HasColumnName("ProductId");
+        builder.Property(s => s.Product).HasColumnName("Product");
         builder.Property(s => s.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(s => s.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(s => s.DeletedDate).HasColumnName("DeletedDate");
@@ -22,7 +24,8 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.HasQueryFilter(s => !s.DeletedDate.HasValue);
 
         builder.HasOne(s => s.Customer).WithMany(c=>c.Sales).HasForeignKey(s=>s.CustomerId);
+        builder.HasOne(s => s.Product).WithMany(c => c.Sales).HasForeignKey(s => s.ProductId);
 
-     
+
     }
 }

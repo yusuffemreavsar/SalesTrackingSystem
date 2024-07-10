@@ -15,9 +15,7 @@ namespace Application.Features.Orders.Commands.Create;
 public class CreateOrderCommand : IRequest<CreatedOrderResponse>, ISecuredRequest, ICacheRemoverRequest, ILoggableRequest, ITransactionalRequest
 {
     public Guid CustomerId { get; set; }
-    public Customer Customer { get; set; }
     public Guid ProductId { get; set; }
-    public Product Product { get; set; }
 
     public string[] Roles => [Admin, Write, OrdersOperationClaims.Create];
 
@@ -42,7 +40,7 @@ public class CreateOrderCommand : IRequest<CreatedOrderResponse>, ISecuredReques
         public async Task<CreatedOrderResponse> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             Order order = _mapper.Map<Order>(request);
-
+         
             await _orderRepository.AddAsync(order);
 
             CreatedOrderResponse response = _mapper.Map<CreatedOrderResponse>(order);
