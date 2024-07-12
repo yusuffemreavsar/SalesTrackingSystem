@@ -3,17 +3,14 @@ using Application.Features.Customers.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
-using NArchitecture.Core.Application.Pipelines.Authorization;
 using MediatR;
-using static Application.Features.Customers.Constants.CustomersOperationClaims;
 
 namespace Application.Features.Customers.Queries.GetById;
 
-public class GetByIdCustomerQuery : IRequest<GetByIdCustomerResponse>, ISecuredRequest
+public class GetByIdCustomerQuery : IRequest<GetByIdCustomerResponse>
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
 
     public class GetByIdCustomerQueryHandler : IRequestHandler<GetByIdCustomerQuery, GetByIdCustomerResponse>
     {

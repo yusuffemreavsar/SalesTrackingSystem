@@ -21,6 +21,7 @@
 	<PackageReference Include="NArchitecture.Core.Security.DependencyInjection" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Features\Customers\Dtos\" />
     <Folder Include="Services\" />
     <Folder Include="Services\Repositories" />
   </ItemGroup>

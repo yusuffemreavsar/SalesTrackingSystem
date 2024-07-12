@@ -12,14 +12,15 @@ using static Application.Features.Sales.Constants.SalesOperationClaims;
 
 namespace Application.Features.Sales.Commands.Create;
 
-public class CreateSaleCommand : IRequest<CreatedSaleResponse>, ISecuredRequest, ICacheRemoverRequest, ILoggableRequest, ITransactionalRequest
+public class CreateSaleCommand : IRequest<CreatedSaleResponse>, ICacheRemoverRequest, ILoggableRequest, ITransactionalRequest
 {
     public int Quantity { get; set; }
     public int TotalPrice { get; set; }
     public Guid CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public Guid ProductId { get; set; }
 
-    public string[] Roles => [Admin, Write, SalesOperationClaims.Create];
+
+   
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }
@@ -42,6 +43,8 @@ public class CreateSaleCommand : IRequest<CreatedSaleResponse>, ISecuredRequest,
         public async Task<CreatedSaleResponse> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
         {
             Sale sale = _mapper.Map<Sale>(request);
+            await _saleBusinessRules.ProductIdShouldExistWhenSelected(request.ProductId, cancellationToken);
+            await _saleBusinessRules.ProductQuantityUpdate(request.ProductId,request.Quantity);
 
             await _saleRepository.AddAsync(sale);
 
