@@ -12,7 +12,7 @@ using static Application.Features.Customers.Constants.CustomersOperationClaims;
 
 namespace Application.Features.Customers.Queries.GetList;
 
-public class GetListCustomerQuery : IRequest<GetListResponse<GetListCustomerListItemDto>>, ICachableRequest
+public class GetListCustomerQuery : IRequest<GetListResponse<GetListCustomerListItemDto>>
 {
     public PageRequest PageRequest { get; set; }
 

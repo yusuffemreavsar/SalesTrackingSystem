@@ -12,11 +12,11 @@ using static Application.Features.Sales.Constants.SalesOperationClaims;
 
 namespace Application.Features.Sales.Queries.GetList;
 
-public class GetListSaleQuery : IRequest<GetListResponse<GetListSaleListItemDto>>, ISecuredRequest, ICachableRequest
+public class GetListSaleQuery : IRequest<GetListResponse<GetListSaleListItemDto>>
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListSales({PageRequest.PageIndex},{PageRequest.PageSize})";
