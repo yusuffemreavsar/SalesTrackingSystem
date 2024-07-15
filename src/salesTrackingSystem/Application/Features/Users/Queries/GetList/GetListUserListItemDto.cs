@@ -8,6 +8,7 @@ public class GetListUserListItemDto : IDto
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
+    public string PhoneNumber { get; set; }
     public bool Status { get; set; }
 
     public GetListUserListItemDto()
@@ -15,14 +16,16 @@ public class GetListUserListItemDto : IDto
         FirstName = string.Empty;
         LastName = string.Empty;
         Email = string.Empty;
+        PhoneNumber= string.Empty;
     }
 
-    public GetListUserListItemDto(Guid id, string firstName, string lastName, string email, bool status)
+    public GetListUserListItemDto(Guid id, string firstName, string lastName, string email, bool status,string phoneNumber)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
         Status = status;
+        PhoneNumber = phoneNumber;
     }
 }

@@ -10,33 +10,32 @@ using static Application.Features.Users.Constants.UsersOperationClaims;
 
 namespace Application.Features.Users.Commands.Update;
 
-public class UpdateUserCommand : IRequest<UpdatedUserResponse>, ISecuredRequest
+public class UpdateUserCommand : IRequest<UpdatedUserResponse>
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
-    public string Password { get; set; }
+    public string PhoneNumber { get; set; }
+
 
     public UpdateUserCommand()
     {
         FirstName = string.Empty;
         LastName = string.Empty;
         Email = string.Empty;
-        Password = string.Empty;
+        PhoneNumber=string.Empty;
     }
 
-    public UpdateUserCommand(Guid id, string firstName, string lastName, string email, string password)
+    public UpdateUserCommand(Guid id, string firstName, string lastName, string email,string phoneNumber)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
-        Password = password;
+        PhoneNumber=phoneNumber;
+
     }
-
-    public string[] Roles => new[] { Admin, Write, UsersOperationClaims.Update };
-
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UpdatedUserResponse>
     {
         private readonly IUserRepository _userRepository;
@@ -58,15 +57,9 @@ public class UpdateUserCommand : IRequest<UpdatedUserResponse>, ISecuredRequest
             );
             await _userBusinessRules.UserShouldBeExistsWhenSelected(user);
             await _userBusinessRules.UserEmailShouldNotExistsWhenUpdate(user!.Id, user.Email);
+            await _userBusinessRules.userCustomerIntegrity(request, user.Id);
             user = _mapper.Map(request, user);
 
-            HashingHelper.CreatePasswordHash(
-                request.Password,
-                passwordHash: out byte[] passwordHash,
-                passwordSalt: out byte[] passwordSalt
-            );
-            user!.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
             await _userRepository.UpdateAsync(user);
 
             UpdatedUserResponse response = _mapper.Map<UpdatedUserResponse>(user);
