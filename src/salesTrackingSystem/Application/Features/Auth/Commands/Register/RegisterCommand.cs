@@ -47,6 +47,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
         public async Task<RegisteredResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForExtendedRegisterDto.User.Email);
+            
 
             HashingHelper.CreatePasswordHash(
                 request.UserForExtendedRegisterDto.User.Password,
@@ -65,6 +66,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
                 };
             User createdUser = await _userRepository.AddAsync(newUser);
 
+            await _authBusinessRules.userCustomerIntegrity(request,createdUser.Id);
             AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
 
             Domain.Entities.RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(

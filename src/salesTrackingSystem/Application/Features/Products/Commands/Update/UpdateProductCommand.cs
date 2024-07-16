@@ -12,7 +12,7 @@ using static Application.Features.Products.Constants.ProductsOperationClaims;
 
 namespace Application.Features.Products.Commands.Update;
 
-public class UpdateProductCommand : IRequest<UpdatedProductResponse>, ISecuredRequest, ICacheRemoverRequest, ILoggableRequest, ITransactionalRequest
+public class UpdateProductCommand : IRequest<UpdatedProductResponse>,ICacheRemoverRequest, ILoggableRequest, ITransactionalRequest
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -20,7 +20,6 @@ public class UpdateProductCommand : IRequest<UpdatedProductResponse>, ISecuredRe
     public int StockQuantity { get; set; }
     public decimal Price { get; set; }
 
-    public string[] Roles => [Admin, Write, ProductsOperationClaims.Update];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

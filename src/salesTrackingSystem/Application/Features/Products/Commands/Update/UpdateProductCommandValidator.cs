@@ -9,7 +9,7 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
         RuleFor(c => c.Id).NotEmpty();
         RuleFor(c => c.Name).NotEmpty();
         RuleFor(c => c.Description).NotEmpty();
-        RuleFor(c => c.StockQuantity).NotEmpty();
-        RuleFor(c => c.Price).NotEmpty();
+        RuleFor(c => c.StockQuantity).NotEmpty().GreaterThan(0);
+        RuleFor(c => c.Price).NotEmpty().GreaterThan(0);
     }
 }

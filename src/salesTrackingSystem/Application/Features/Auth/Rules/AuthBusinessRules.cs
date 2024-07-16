@@ -1,4 +1,6 @@
+using Application.Features.Auth.Commands.Register;
 using Application.Features.Auth.Constants;
+using Application.Features.Users.Commands.Update;
 using Application.Services.Repositories;
 using Domain.Entities;
 using NArchitecture.Core.Application.Rules;
@@ -13,11 +15,13 @@ public class AuthBusinessRules : BaseBusinessRules
 {
     private readonly IUserRepository _userRepository;
     private readonly ILocalizationService _localizationService;
+    private readonly ICustomerRepository _customerRepository;
 
-    public AuthBusinessRules(IUserRepository userRepository, ILocalizationService localizationService)
+    public AuthBusinessRules(IUserRepository userRepository, ILocalizationService localizationService, ICustomerRepository customerRepository)
     {
         _userRepository = userRepository;
         _localizationService = localizationService;
+        _customerRepository = customerRepository;
     }
 
     private async Task throwBusinessException(string messageKey)
@@ -85,5 +89,16 @@ public class AuthBusinessRules : BaseBusinessRules
     {
         if (!HashingHelper.VerifyPasswordHash(password, user!.PasswordHash, user.PasswordSalt))
             await throwBusinessException(AuthMessages.PasswordDontMatch);
+    }
+
+    public async Task userCustomerIntegrity(RegisterCommand user,Guid id)
+    {
+        Customer customer = new Customer();
+        customer.FirstName = user.UserForExtendedRegisterDto.FirstName;
+        customer.LastName = user.UserForExtendedRegisterDto.LastName;
+        customer.Email = user.UserForExtendedRegisterDto.User.Email;
+        customer.UserId = id;
+        customer.PhoneNumber = user.UserForExtendedRegisterDto.PhoneNumber;
+        await _customerRepository.AddAsync(customer);
     }
 }

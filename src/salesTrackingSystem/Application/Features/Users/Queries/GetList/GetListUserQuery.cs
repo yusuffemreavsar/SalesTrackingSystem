@@ -47,7 +47,6 @@ public class GetListUserQuery : IRequest<GetListResponse<GetListUserListItemDto>
                 enableTracking: false,
                 cancellationToken: cancellationToken
             );
-
             GetListResponse<GetListUserListItemDto> response = _mapper.Map<GetListResponse<GetListUserListItemDto>>(users);
             return response;
         }

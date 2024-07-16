@@ -9,11 +9,10 @@ using static Application.Features.Users.Constants.UsersOperationClaims;
 
 namespace Application.Features.Users.Commands.Delete;
 
-public class DeleteUserCommand : IRequest<DeletedUserResponse>, ISecuredRequest
+public class DeleteUserCommand : IRequest<DeletedUserResponse>
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => new[] { Admin, Write, UsersOperationClaims.Delete };
 
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, DeletedUserResponse>
     {
@@ -36,7 +35,7 @@ public class DeleteUserCommand : IRequest<DeletedUserResponse>, ISecuredRequest
             );
             await _userBusinessRules.UserShouldBeExistsWhenSelected(user);
 
-            await _userRepository.DeleteAsync(user!);
+            await _userRepository.DeleteAsync(user!,true);
 
             DeletedUserResponse response = _mapper.Map<DeletedUserResponse>(user);
             return response;
